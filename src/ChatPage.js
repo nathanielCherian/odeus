@@ -5,16 +5,48 @@ import { createOffer,
          receivedIceCandidate } from './controller/RTC_Connections';
 
 
+function MessageBox() {
+
+    const [messages, setMessages] = useState([]);
+
+    window.addMessage = (message) => {
+        setMessages(messages.concat(message));
+    }
+
+    return (
+        <div className="message-container" style={{ display:"flex", justifyContent:"center"}}>
+            <div className="message-box" style={{"width":"300px", textAlign:"left"}}>
+                {messages.map((message, index) => {
+                    return (
+                        <div key={index} className="message-line">
+                            <span className='message-line__name' style={{"paddingRight":"10px"}}>
+                                { 
+                                    message.id !== window.ws.meta.id ? <b>{message.name}:</b> : <b><i>you:</i></b>
+                                }
+                            </span>
+                            <span>{message.message}</span>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+
+    )
+
+}
+
 function TextBar() {
     const [message, setMessage] = useState('');
     
     const onSend = () => {
         if(message === "") return;
+        const m = {id:window.ws.meta.id, name:window.ws.meta.name, message};
         for(let id in window.rtc_connections) {
             const pc = window.rtc_connections[id];
             const myChannel = pc.myChannel;
-            myChannel.send(JSON.stringify({id:window.ws.meta.id, name:window.ws.meta.name, message}));
+            myChannel.send(JSON.stringify(m));
         }
+        window.addMessage(m);
         setMessage('');
     }
 
@@ -55,14 +87,11 @@ export default function ChatPage({ setAppState }) {
         receivedIceCandidate(candidate, id);
     });
 
-    const [name, setName] = useState('');
-
-
-        return (
-            <div className="chat-page-container">
-                <h1>Chat Page</h1>
-
-                <TextBar />
-            </div>
-        )
+    return (
+        <div className="chat-page-container">
+            <h1>Chat Page</h1>
+            <MessageBox />
+            <TextBar />
+        </div>
+    )
 }

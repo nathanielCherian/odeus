@@ -35,11 +35,10 @@ function createPeerConnection(id, name) {
     }
     
 
-
     pc.ondatachannel = e => {
         e.channel.onmessage = e => {
             const {id, name, message} = JSON.parse(e.data);
-            console.log({id, name, message});
+            window.addMessage({id, name, message});
         }
     }
     

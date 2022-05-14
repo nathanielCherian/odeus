@@ -17,13 +17,18 @@ export default function LandingPage({ setAppState }) {
         successful_join_room();
     });
 
+    const validate_name = () => {
+        if(name === '') return;
+        if(name.length > 15) return;
+        join_room(name);
+    }
 
 
     return (
         <div className="landing-page-container">
             <h1>Landing Page</h1>
             <input type="text" placeholder="What should we call you" value={name} onChange={(e)=>setName(e.target.value)}/>
-            <button onClick={()=>join_room(name)}>Join a room</button>
+            <button onClick={validate_name}>Join a room</button>
         </div>
     )
 }

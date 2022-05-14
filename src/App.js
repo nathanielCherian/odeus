@@ -30,11 +30,7 @@ function App() {
       <header className="App-header">
         <h1>odeus.</h1>
       </header>
-
-      <div className="create-room-container">
       
-      </div>
-
     </div>
   );
 }
