@@ -10,21 +10,25 @@ class Room {
 
     sendOffer(sender_data, recipient_id, offer) {
         const recipient = this.sockets.find(s => s.meta.id === recipient_id);
-        recipient.send(prepare_message('clientRecieveOffer', {offer, sender_data}));
+        recipient.send(prepare_message('server:deliver-offer', {offer, sender_data}));
     }
 
     sendAnswer(sender_data, recipient_id, answer) {
         const recipient = this.sockets.find(s => s.meta.id === recipient_id);
-        recipient.send(prepare_message('clientRecieveAnswer', {answer, sender_data}));
+        recipient.send(prepare_message('server:deliver-answer', {answer, sender_data}));
     }
 
     sendIceCandidate(sender_data, recipient_id, candidate) {
         const recipient = this.sockets.find(s => s.meta.id === recipient_id);
-        recipient.send(prepare_message('clientRecieveIceCandidate', {candidate, sender_data}));
+        recipient.send(prepare_message('server:deliver-ice-candidate', {candidate, sender_data}));
     }
 
     getMembers(){
         return this.sockets.map(s => s.meta); // should contain the id and name
+    }
+
+    getOtherMembers(socket){
+        return this.sockets.filter(s => s !== socket).map(s => s.meta);
     }
 }
 

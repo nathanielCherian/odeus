@@ -22,32 +22,36 @@ socket_events.on('ping', (payload, socket) => {
   socket.send(prepare_message('pong', socket.meta));
 });
 
-socket_events.on('joinRoomRequest', (payload, socket) => {
+socket_events.on('client:request-join-room', (payload, socket) => {
   const {id, name} = payload;
   socket.meta.name = name;
-  console.log("adding socket to room ", id);
-  const members = main_room.getMembers(); // keeping copy of the members without the new guy
   main_room.addSocket(socket); // adding new guy to the room
+  console.log("adding socket to room ", id);
   let status = 'ok';
-  socket.send(prepare_message('joinRoomRequest-status', {id: id, status})); // confirmation of joining room
+  socket.send(prepare_message('server:join-room-status', {id: id, status})); // confirmation of joining room
   if(status !== 'ok') return;
   // sending the members back to requester to create offers with them 
-  socket.send(prepare_message('createOffersCommand', {members})); 
+//   socket.send(prepare_message('createOffersCommand', {members})); 
 });
 
-socket_events.on('clientInitiateOffer', (payload, socket) => {
+socket_events.on('client:request-member-list', (payload, socket) => {
+    const members = main_room.getOtherMembers(socket);
+    socket.send(prepare_message('server:member-list', {members}));
+});
+
+socket_events.on('client:send-offer', (payload, socket) => {
   const {offer, partner_id} = payload;
   console.log("recieved offer from ", socket.meta['id']);
   main_room.sendOffer(socket.meta, partner_id, offer);
 });
 
-socket_events.on('clientInitiateAnswer', (payload, socket) => {
+socket_events.on('client:send-answer', (payload, socket) => {
   const {answer, partner_id} = payload;
   console.log("recieved answer from ", socket.meta['id']);
   main_room.sendAnswer(socket.meta, partner_id, answer);
 });
 
-socket_events.on('clientInitiateIceCandidate', (payload, socket) => {
+socket_events.on('client:send-ice-candidate', (payload, socket) => {
   const {candidate, partner_id} = payload;
   console.log("recieved ice candidate from ", socket.meta['id']);
   main_room.sendIceCandidate(socket.meta, partner_id, candidate);

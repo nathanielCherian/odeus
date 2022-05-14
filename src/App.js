@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LandingPage from './LandingPage';
 import './App.css';
+import ChatPage from './ChatPage';
 
 function App() {
 
@@ -11,6 +12,14 @@ function App() {
     return (
       <div className="App">
         <LandingPage setAppState={setAppState} />
+      </div>
+    );
+
+  } else if (appState === 1) {
+
+    return (
+      <div className="App">
+        <ChatPage setAppState={setAppState} />
       </div>
     );
 

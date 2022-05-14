@@ -50,6 +50,7 @@
 
 
     window.ws = new WebSocket('ws://192.168.1.22:7071');
+    window.ws.meta = {id:null, name:''};
     window.ws.emit = (code, payload) => {
       const message = JSON.stringify({
           code,
@@ -69,6 +70,8 @@
           message: 'Hello from the client'
       });
     });
+
+    window.rtc_connections = {};
     
 
   </script>

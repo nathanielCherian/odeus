@@ -1,11 +1,21 @@
 
-function join_room(name, after_join_room) {
+function join_room(name) {
     if(window.ws.readyState !== WebSocket.OPEN) {
-        console.log('not connected');
+        console.log('not connected to server');
         return;
     }
-    console.log("user wants to join room.")
-    after_join_room();
+
+    if (window.ws.meta.id === null) {
+        console.log("did not establish handshake with server.");
+        return;
+    }
+
+    window.ws.meta.name = name;
+    window.ws.emit('client:request-join-room', {id:window.ws.meta.id, name});
 }
 
-export {join_room};
+function request_member_list() {
+    window.ws.emit('client:request-member-list', {});
+}
+
+export {join_room, request_member_list};
