@@ -1,38 +1,35 @@
 import React, { useState } from 'react';
 import LandingPage from './LandingPage';
-import './App.css';
+import './css/App.css';
 import ChatPage from './ChatPage';
 
 function App() {
 
   const [appState, setAppState] = useState(0);
 
-  if (appState === 0) {
 
-    return (
-      <div className="App">
-        <LandingPage setAppState={setAppState} />
-      </div>
-    );
-
-  } else if (appState === 1) {
-
-    return (
-      <div className="App">
-        <ChatPage setAppState={setAppState} />
-      </div>
-    );
-
+  const getAppView = (appState) => {
+    if (appState === 0) {
+      return <LandingPage setAppState={setAppState} />;
+    } else if (appState === 1) {
+      return <ChatPage setAppState={setAppState} />;
+    }
+    return <></>
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>odeus.</h1>
-      </header>
-      
+      {getAppView(appState)}
+
+      <div className='noti__container noti-error hidden'>
+        <p>THIS IS AN ERROR MESSAGE</p>
+      </div>
+
     </div>
-  );
+  )
+  
 }
 
+
 export default App;
+

@@ -1,0 +1,30 @@
+.heading__container {
+    margin: 20px;
+}
+
+.heading__title {
+    font-size: calc(30px + 2vmin);
+    margin: 0px;
+}
+
+.heading__sub {
+    margin: 0px;
+}
+  
+.landing-page__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .join-room__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }

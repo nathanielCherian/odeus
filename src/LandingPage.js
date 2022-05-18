@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { join_room, request_member_list } from './controller/events';
+import { TextInput } from './Components';
+import './css/LandingPage.css';
 
 export default function LandingPage({ setAppState }) {
 
@@ -25,10 +27,17 @@ export default function LandingPage({ setAppState }) {
 
 
     return (
-        <div className="landing-page-container">
-            <h1>Landing Page</h1>
-            <input type="text" placeholder="What should we call you" value={name} onChange={(e)=>setName(e.target.value)}/>
-            <button onClick={validate_name}>Join a room</button>
+        <div className="landing-page__container">
+
+            <div className='heading__container'>
+                <h1 className="heading__title">odeus.</h1>
+                <p className="heading__sub">group chats with strangers</p>
+            </div>
+
+            <div className="join-room__container">
+                <TextInput placeholder="What should we call you" onChange={(e)=>setName(e.target.value)} value={name} onEnter={validate_name}/>
+                <button onClick={validate_name}>Join a room</button>
+            </div>
         </div>
     )
 }
