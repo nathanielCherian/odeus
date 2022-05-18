@@ -41,7 +41,7 @@ function createPeerConnection(id, name) {
         e.channel.onmessage = e => {
             const d = JSON.parse(e.data);
             if(d['type'] === 'typing') {
-                console.log(d);
+                window.setPeerStatus(d.id, d.isTyping);
                 return
             }
             const {id, name, message, type} = JSON.parse(e.data);

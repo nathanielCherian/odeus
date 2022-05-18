@@ -49,6 +49,30 @@ function MessageBox() {
 
 }
 
+function StatusBar() {
+
+    const [typers, setTypers] = useState({})
+
+    window.setPeerStatus = (id_, typingStatus) => {
+        typers[id_] = typingStatus
+        setTypers({...typers, [id_]:typingStatus})
+    };
+
+
+    const createMessage = (typers) => {
+        const typer_ids = Object.keys(typers).filter(id_ => typers[id_]);
+        const typer_names = typer_ids.map((id_) => `'${window.rtc_connections[id_].meta.name}'`);
+        const action = typer_names.length>0?'are typing':''
+        return typer_names.join(' and ') + action;
+    }
+
+    return (
+        <div>
+            <small className='typing-message'>{createMessage(typers)}</small>
+        </div>
+    )
+}
+
 function TextBar() {
     const [message, setMessage] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -134,6 +158,7 @@ export default function ChatPage({ setAppState }) {
         <div className="chat-page-container">
             <h1>Chat Page</h1>
             <MessageBox />
+            <StatusBar />
             <TextBar />
         </div>
     )
