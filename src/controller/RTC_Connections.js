@@ -39,7 +39,13 @@ function createPeerConnection(id, name) {
 
     pc.ondatachannel = e => {
         e.channel.onmessage = e => {
+            const d = JSON.parse(e.data);
+            if(d['type'] === 'typing') {
+                console.log(d);
+                return
+            }
             const {id, name, message, type} = JSON.parse(e.data);
+            
             window.addMessage({id, name, message, type});
         }
     }
@@ -80,4 +86,12 @@ function receivedIceCandidate(candidate, sender_id) {
     pc.addIceCandidate(new RTCIceCandidate(candidate));
 }
 
-export { createOffer, receivedOffer, receivedAnswer, receivedIceCandidate };
+function sendData(data) {
+    for(let id in window.rtc_connections) {
+        const pc = window.rtc_connections[id];
+        const myChannel = pc.myChannel;
+        myChannel.send(JSON.stringify(data));
+    }
+}
+
+export { createOffer, receivedOffer, receivedAnswer, receivedIceCandidate, sendData };

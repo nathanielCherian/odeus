@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextInput } from './Components';
-import { createOffer, 
+import { sendData,
+         createOffer,
          receivedOffer, 
          receivedAnswer, 
          receivedIceCandidate } from './controller/RTC_Connections';
@@ -54,10 +55,17 @@ function TextBar() {
     const [lastStroke, setLastStroke] = useState(0);
     const [time, setTime] = useState(0);
     
+    const setTyping = (typing) => {
+        console.log("updated to: ", typing)
+        const m = {id:window.ws.meta.id, name:window.ws.meta.name, isTyping:typing, type:"typing"}
+        sendData(m);
+        setIsTyping(typing);
+    }
+
     if(time - lastStroke > 1000) { // the difference between now and last stroke
-        console.log("not typing");
+        if(isTyping) setTyping(false);
     } else {
-        console.log("typing");
+        if(!isTyping) setTyping(true);
     }
 
     useEffect(() => {
