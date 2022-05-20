@@ -3,9 +3,19 @@ import { TextInput } from './Components';
 import { sendData,
          createOffer,
          receivedOffer, 
-         receivedAnswer, 
+         receivedAnswer,
+         disconnect_all,
          receivedIceCandidate } from './controller/RTC_Connections';
 
+
+function OptionBar({ leave_chat }) {
+    
+    return (
+        <div className="option-bar">
+            <button className="leave-button" onClick={leave_chat}> leave. </button>
+        </div>
+    )
+}
 
 function MessageBox() {
 
@@ -80,7 +90,6 @@ function TextBar() {
     const [time, setTime] = useState(0);
     
     const setTyping = (typing) => {
-        console.log("updated to: ", typing)
         const m = {id:window.ws.meta.id, name:window.ws.meta.name, isTyping:typing, type:"typing"}
         sendData(m);
         setIsTyping(typing);
@@ -154,9 +163,15 @@ export default function ChatPage({ setAppState }) {
         receivedIceCandidate(candidate, id);
     });
 
+    const leave_chat = () => {
+        disconnect_all();
+        setAppState(0);
+    }
+
     return (
         <div className="chat-page-container">
-            <h1>Chat Page</h1>
+            <OptionBar leave_chat={leave_chat}/>
+            <h1>odeus.</h1>
             <MessageBox />
             <StatusBar />
             <TextBar />

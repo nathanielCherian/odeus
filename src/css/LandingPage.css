@@ -1,3 +1,17 @@
+.option-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    /* background-color: red; */
+}
+
+.leave-button {
+    margin: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .heading__container {
     margin: 20px;
 }

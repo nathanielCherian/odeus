@@ -94,4 +94,16 @@ function sendData(data) {
     }
 }
 
-export { createOffer, receivedOffer, receivedAnswer, receivedIceCandidate, sendData };
+function disconnect_all() {
+    sendData({
+        id:window.ws.meta.id, 
+        name:window.ws.meta.name, 
+        isTyping:false, 
+        type:"typing"});
+    Object.keys(window.rtc_connections).forEach((key) => {
+        window.rtc_connections[key].close();
+    });
+    window.rtc_connections = {};
+}
+
+export { createOffer, receivedOffer, receivedAnswer, receivedIceCandidate, sendData, disconnect_all };
