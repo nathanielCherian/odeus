@@ -6,4 +6,5 @@
 - Easier deployment
     - Changing the websocket address in ```/public/index.html```
 - Non-terminating Errors in server
-- Migrate to SQLite database
+- Migrate to SQLite database?
+- test/fix onLeave condition

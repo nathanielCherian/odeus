@@ -165,6 +165,7 @@ export default function ChatPage({ setAppState }) {
 
     const leave_chat = () => {
         disconnect_all();
+        window.ws.emit("client:leave-room", {});
         setAppState(0);
     }
 

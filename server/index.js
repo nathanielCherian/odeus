@@ -51,6 +51,10 @@ socket_events.on('client:send-ice-candidate', (payload, socket) => {
   main_room.sendIceCandidate(socket.meta, partner_id, candidate);
 });
 
+socket_events.on("client:leave-room", (payload, socket) => {
+  console.log("leaving room: ", socket.meta.id);
+  main_room.removeSocket(socket);
+});
 
 const server_port = 8000;
 const ws_port = 7010
