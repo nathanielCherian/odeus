@@ -52,9 +52,10 @@ socket_events.on('client:send-ice-candidate', (payload, socket) => {
 });
 
 
+const server_port = 8000;
+const ws_port = 7010
 
-
-const wss = new WebSocket.Server({ port: 7010 });
+const wss = new WebSocket.Server({ port: ws_port });
 wss.on('connection', (ws) => {
   console.log('new connection: ');
   const meta = {
@@ -82,5 +83,4 @@ const server = http.createServer((req, res) => {
   res.end(main_room.toString());
 });
 
-const port = 8080;
-server.listen(port, () => console.log(`Server running at http://localhost:${port}`));
+server.listen(server_port, () => console.log(`Server running at http://localhost:${server_port}\nWebsocket running on :${ws_port}`));
