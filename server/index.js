@@ -26,8 +26,6 @@ socket_events.on('client:request-join-room', (payload, socket) => {
   let status = 'ok';
   socket.send(prepare_message('server:join-room-status', {id: id, status})); // confirmation of joining room
   if(status !== 'ok') return;
-  // sending the members back to requester to create offers with them 
-//   socket.send(prepare_message('createOffersCommand', {members})); 
 });
 
 socket_events.on('client:request-member-list', (payload, socket) => {
@@ -56,7 +54,7 @@ socket_events.on('client:send-ice-candidate', (payload, socket) => {
 
 
 
-const wss = new WebSocket.Server({ port: 7071 });
+const wss = new WebSocket.Server({ port: 7010 });
 wss.on('connection', (ws) => {
   console.log('new connection: ');
   const meta = {
