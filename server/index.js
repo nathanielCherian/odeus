@@ -53,7 +53,7 @@ socket_events.on('client:send-ice-candidate', (payload, socket) => {
 
 
 const server_port = 8000;
-const ws_port = 7071
+const ws_port = 7010
 
 const wss = new WebSocket.Server({ port: ws_port });
 wss.on('connection', (ws) => {

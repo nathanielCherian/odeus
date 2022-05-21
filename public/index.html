@@ -49,7 +49,9 @@
     });
 
 
-    window.ws = new WebSocket(`ws://${window.location.hostname}:7071`);
+    // If in development use port 7010 (same as server). In production use 7071 as nginx proxies traffic from 7071 to upstream 7010
+    let WEBSOCKET_PORT = (window.location.hostname.includes("odeus.sylicia.com")) ? 7071 : 7010;
+    window.ws = new WebSocket(`ws://${window.location.hostname}:${WEBSOCKET_PORT}`);
     window.ws.meta = {id:null, name:''};
     window.ws.emit = (code, payload) => {
       const message = JSON.stringify({
