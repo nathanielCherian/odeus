@@ -4,11 +4,7 @@ const SocketEvents = require('./SocketEvents');
 const { RTCPair, Room } = require('./RTCPair');
 const WebSocket = require('ws');
 
-const {uuidv4, prepare_message} = require('./utils');
-
-const server = http.createServer((req, res) => {
-//   req.addListener('end', () => file.serve(req, res)).resume();
-});
+const {uuidv4, prepare_message, parse_message} = require('./utils');
 
 
 
@@ -68,8 +64,10 @@ wss.on('connection', (ws) => {
   }
   ws.meta = meta;
   
-  ws.on('message', (message) => { 
-    const {code, payload} = JSON.parse(message);
+  ws.on('message', (message) => {
+    const parsed_message = parse_message(message);
+    if(!parsed_message) return; // 
+    const {code, payload} = parsed_message
     console.log({flow:"incoming",code, payload})
     socket_events.message_received({code, payload}, ws);
   });
@@ -81,6 +79,10 @@ wss.on('connection', (ws) => {
   
 });
 
+const server = http.createServer((req, res) => {
+  res.writeHead(200);
+  res.end(main_room.toString());
+});
 
 const port = 8080;
 server.listen(port, () => console.log(`Server running at http://localhost:${port}`));

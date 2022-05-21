@@ -30,6 +30,10 @@ class Room {
     getOtherMembers(socket){
         return this.sockets.filter(s => s !== socket).map(s => s.meta);
     }
+
+    toString() {
+        return JSON.stringify([...this.getMembers()]);
+    }
 }
 
 class RTCPair {

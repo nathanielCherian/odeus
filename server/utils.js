@@ -14,9 +14,14 @@ const prepare_message = (code, payload) => {
 }
 
 const parse_message = (message) => {
-    const data = JSON.parse(message);
-    if(!(data.code && data.payload)) throw new Error('Invalid message');
-    return JSON.parse(message);
+    try {
+        const data = JSON.parse(message);
+        if(!(data.code && data.payload)) throw new Error('Invalid message');
+        return data;
+    } catch (error) {
+        console.error("unable to parse messsage.");
+    }
+    return false;
 }
 
 module.exports = { uuidv4, prepare_message, parse_message }
