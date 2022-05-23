@@ -27,11 +27,11 @@ function createPeerConnection(id, name) {
     const myChannel = pc.createDataChannel('sendDataChannel');
     pc.myChannel = myChannel;
     myChannel.onopen = (e) => {
-        console.log('channel open from mycha', e);
+        console.log(`Data channel with ${id} open...`);
         window.addMessage({type:"notification", message:`'${name}' joined the room` });
     }
     myChannel.onclose = (e) => {
-        console.log('channel close from mycha ', e);
+        console.log(`Data channel with ${id} closed...`);
         window.addMessage({type:"notification", message:`'${name}' left the room` });
         delete window.rtc_connections[id];
     }

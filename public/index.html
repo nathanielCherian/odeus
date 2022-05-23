@@ -75,6 +75,10 @@
       });
     });
 
+    window.ws.addEventListener('close', () => {
+      console.log("websocket connection closed");
+    });
+
     window.rtc_connections = {};
     
 
