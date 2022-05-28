@@ -47,6 +47,10 @@
       console.log(socket.meta)
       console.log('pong received, connection to server is established');
     });
+    window.socketEvents.on('server:guest-left', (payload, socket) => {
+      const {id, name} = payload;
+      window.on_guest_leave(id, name);
+    });
 
 
     // If in development use port 7010 (same as server). In production use 7071 as nginx proxies traffic from 7071 to upstream 7010
@@ -81,6 +85,13 @@
 
     window.rtc_connections = {};
     
+
+    window.on_guest_leave = (id, name) => {
+      if(!window.rtc_connections[id]) return;
+      console.log(`Data channel with ${id} closed...`);
+      window.addMessage({type:"notification", message:`'${name}' left the room` });
+      delete window.rtc_connections[id];
+    }
 
   </script>
 

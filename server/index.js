@@ -51,9 +51,18 @@ socket_events.on('client:send-ice-candidate', (payload, socket) => {
   main_room.sendIceCandidate(socket.meta, partner_id, candidate);
 });
 
+
+const left_room = (socket) => {
+  main_room.removeSocket(socket);
+  console.log("removing socket from room ", socket.meta.id);
+  main_room.sockets.forEach((s) => {
+    s.send(prepare_message('server:guest-left', {id:socket.meta.id, name:socket.meta.name}));
+  });
+}
+
 socket_events.on("client:leave-room", (payload, socket) => {
   console.log("leaving room: ", socket.meta.id);
-  main_room.removeSocket(socket);
+  left_room(socket);
 });
 
 const server_port = 8000;
@@ -77,7 +86,7 @@ wss.on('connection', (ws) => {
 
   ws.on('close', () => {
     console.log('connection closed ', ws.meta.id);
-    main_room.removeSocket(ws);
+    left_room(ws);
   });
   
 });

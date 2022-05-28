@@ -31,9 +31,7 @@ function createPeerConnection(id, name) {
         window.addMessage({type:"notification", message:`'${name}' joined the room` });
     }
     myChannel.onclose = (e) => {
-        console.log(`Data channel with ${id} closed...`);
-        window.addMessage({type:"notification", message:`'${name}' left the room` });
-        delete window.rtc_connections[id];
+        window.on_guest_leave(id, name);
     }
     
 
